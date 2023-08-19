@@ -8,18 +8,21 @@ pipeline {
     }
     stage('Terraform') {
       steps {
-        dir('/var/lib/jenkins/workspace/'${JOB_NAME}'/Terraform-Project/ec2/') {
+        script {
+          def workspacePath = "/var/lib/jenkins/workspace/${JOB_NAME}/Terraform-Project/ec2/"
           withEnv(["Instance_Type=${params.Instance_Type}"]) {
-            sh "terraform init"
-            sleep 20
-            sh 'terraform apply -var "Instance_Type=${Instance_Type}" -auto-approve'
+            dir(workspacePath) {
+              sh "terraform init"
+              sleep 20
+              sh "terraform apply -var Instance_Type=${Instance_Type} -auto-approve"
+            }
           }
         }
       }
     }
     stage ('Output') {
       steps {
-        echo "${Instance_Type} has sucesfully created"
+        echo "${Instance_Type} has successfully been created"
       }
     }
   }
