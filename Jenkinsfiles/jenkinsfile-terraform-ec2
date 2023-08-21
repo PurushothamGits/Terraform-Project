@@ -9,7 +9,7 @@ pipeline {
     stage('Terraform') {
       steps {
          script {
-        dir('/var/lib/jenkins/workspace/Terraform-Ec2/Terraform-Project/ec2/') {
+        dir('/var/lib/jenkins/workspace/Terraform-Ec2/ec2/') {
           withEnv(["Instance_Type=${params.Instance_Type}"]) {
             sh "terraform init"
             sleep 20
